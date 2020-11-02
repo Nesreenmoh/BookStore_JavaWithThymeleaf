@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/layout :: head"></head>
+<body>
+<nav th:replace="fragment/layout :: navigation"></nav>
+<div class="container mt-3">
+    <div class="form-group">
+        <h3 th:text="${author.firstName}">  </h3>
+       <ul th:each="book : ${authorbooks}">
+           <li th:text="${book.title}"></li>
+       </ul>
+    </div>
+    <br/>
+    <form method="post">
+        <div class="form-group">
+            <label>All Books : </label>
+         <input type="hidden" th:field="${authorBookDTO.author}">
+        <select th:field="${authorBookDTO.book}">
+            <option th:each="book : ${books}"
+                    th:value="${book.id}"
+                    th:text="${book.title}"></option>
+        </select>
+        </div>
+        <input type="submit" class="btn btn-success" value="Add Book">
+    </form>
+</div>
+</body>
+</html>

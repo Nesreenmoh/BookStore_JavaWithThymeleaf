@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment/layout :: head"></head>
+  <body>
+    <nav th:replace="fragment/layout :: navigation"></nav>
+    <div class="container mt-4">
+      <form method="post" th:action="@{/books/create}">
+        <div class="card" style="max-width: 30rem">
+          <div class="card-header bg-primary font-weight-bold text-center">
+            <h3>Book Form</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="font-weight-bold"> Title </label>
+              <input
+                class="form-control"
+                th:field="${book.title}"
+                placeholder="Book title"
+              />
+              <span class="text-danger" th:errors="${book.title}"></span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold"> Published Year </label>
+              <input
+                class="form-control"
+                th:field="${book.publishedYear}"
+                placeholder="Book Published Year"
+              />
+              <span
+                class="text-danger"
+                th:errors="${book.publishedYear}"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold"> ISBN </label>
+              <input
+                class="form-control"
+                th:field="${book.isbn}"
+                placeholder="Book ISBN"
+              />
+              <span class="text-danger" th:errors="${book.isbn}"></span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold"> Category </label>
+              <select class="form-control" th:field="${book.category}">
+                <option
+                  th:each="category : ${categories}"
+                  th:value="${category.id}"
+                  th:text="${category.name}"
+                ></option>
+              </select>
+              <span class="text-danger" th:errors="${book.category}"></span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold"> Publisher </label>
+              <select class="form-control" th:field="${book.publisher}">
+                <option
+                        th:each="publisher : ${publishers}"
+                        th:value="${publisher.id}"
+                        th:text="${publisher.name}"
+                ></option>
+              </select>
+              <span class="text-danger" th:errors="${book.publisher}"></span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="form-group">
+              <input class="btn btn-primary" type="submit" value="Save" />
+              <a class="btn btn-dark" href="#" th:href="@{/books/index}">
+                Cancel</a
+              >
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

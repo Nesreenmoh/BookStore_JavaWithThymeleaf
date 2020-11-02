@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/layout :: head"></head>
+<body>
+<nav th:replace="fragment/layout :: navigation"></nav>
+<div class="container mt-3">
+    <div class="jumbotron" style="max-width:900px">
+        <div class="container">
+            <h2 class="display-4 text-center" th:text="${author.displayName}"></h2>
+        </div>
+        <hr class="my-4">
+        <div class="row mt-2 h4">
+            <div class="col-md-4 ">
+                <div class="form-group">
+                    <label><strong>Country: </strong></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span th:text="${author.address.country}" class="lead"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>City: </strong> </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span  class="lead" th:text="${author.address.city}"></span>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>Number of books: </strong></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span class="lead" th:text="${NoOfBooks}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>Books Titles </strong></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <span class="lead" th:text="${message}"></span>
+                    <ul  th:each="book : ${author.books}" th:if="${author.books != null}">
+                        <li class="lead" th:text="${book.title}"></li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+        <hr class="my-4">
+        <div class="text-center">
+            <a class="btn btn-info btn-lg" href="#" th:href="@{/authors/index}"> back</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

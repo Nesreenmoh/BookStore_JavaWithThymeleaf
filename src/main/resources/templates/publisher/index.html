@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/layout :: head"></head>
+<body>
+<nav th:replace="fragment/layout :: navigation"></nav>
+<div class="container mt-3">
+    <h3 th:text="${title}"></h3>
+    <div class="mt-4">
+        <a class="btn btn-success" href="#" th:href="@{/publishers/create}"
+        >Add Publisher</a
+        >
+    </div>
+
+    <table class="table table-striped table-hover table-bordered mt-3" th:if="${!publishers.isEmpty()}">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Address</td>
+            <td class="text-center">Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="publisher :${publishers}">
+            <td th:text="${publisher.id}"></td>
+            <td th:text="${publisher.name}"></td>
+            <td th:text="${publisher.address.country}+', '+${publisher.address.city}"></td>
+            <td class="text-center">
+                <a href="#" th:href="@{/publishers/details/{id}(id=${publisher.id})}"
+                ><i class="fa fa-search-plus fa-lg"></i> |
+                </a>
+                <a href="#" th:href="@{/publishers/update/{id}(id=${publisher.id})}"
+                ><i class="fa fa-edit fa-lg"></i> |
+                </a>
+                <a href="#" th:href="@{/publishers/delete/{id}(id=${publisher.id})}"
+                ><i class="fa fa-trash fa-lg"></i
+                ></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
