@@ -45,6 +45,6 @@ public class PublisherController {
             return "publisher/create";
         }
         publisherService.save(publisher);
-        return "publisher/index:";
+        return "redirect:";
     }
 }

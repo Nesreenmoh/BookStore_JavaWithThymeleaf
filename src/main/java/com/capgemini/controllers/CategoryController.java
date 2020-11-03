@@ -33,13 +33,14 @@ public class CategoryController {
 
     @GetMapping({"/create"})
     public String renderCreateForm(Model model) {
-        model.addAttribute("category", new Category());
         model.addAttribute("title", "Create Category");
+        model.addAttribute("category", new Category());
         return "category/create";
     }
 
     @PostMapping({"/create"})
-    public String createCategory(@ModelAttribute @Valid Category category, Model model, Errors errors) {
+    public String createCategory(@ModelAttribute @Valid Category category,
+                                 Errors errors, Model model) {
         if (!errors.hasErrors()) {
             categoryService.save(category);
             return "redirect:";
