@@ -31,7 +31,6 @@ public class PublisherController {
 
     @GetMapping({"/create"})
     public String renderCreatePublisherForm(Model model){
-
         model.addAttribute("title", "Publisher Form");
         model.addAttribute("publisher", new Publisher());
         return "publisher/create";
@@ -39,9 +38,10 @@ public class PublisherController {
     }
 
     @PostMapping({"/create"})
-    public String createPublisher(@ModelAttribute @Valid Publisher publisher, Model model, Errors errors){
+    public String createPublisher(@ModelAttribute @Valid Publisher publisher,
+                                  Errors errors, Model model){
         if(errors.hasErrors()){
-            model.addAttribute("title", "Publisher Form");
+            model.addAttribute("title", "Add Publisher");
             return "publisher/create";
         }
         publisherService.save(publisher);

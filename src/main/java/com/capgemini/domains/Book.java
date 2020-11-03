@@ -31,7 +31,6 @@ public class Book extends BaseEntity {
     private Category category;
 
     @ManyToOne
-    @Valid
     @NotNull(message = "Publisher is required")
     private Publisher publisher;
 

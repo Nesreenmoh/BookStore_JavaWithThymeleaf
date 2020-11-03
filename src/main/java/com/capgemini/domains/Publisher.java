@@ -4,13 +4,15 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Publisher extends BaseEntity {
 
-    @NotNull(message = "Name is required")
+    @NotBlank(message = "Name is required")
+    @Size(min = 3, max = 20, message = "The Name must be between 2 and 20 characters")
     @Column(unique = true)
     private String name;
 
