@@ -12,7 +12,7 @@ import java.util.List;
 public class Publisher extends BaseEntity {
 
     @NotBlank(message = "Name is required")
-    @Size(min = 3, max = 20, message = "The Name must be between 2 and 20 characters")
+    @Size(min = 3, max = 50, message = "The Name must be between 2 and 50 characters")
     @Column(unique = true)
     private String name;
 

@@ -66,7 +66,8 @@ public class CategoryController {
     }
 
     @PostMapping({"/update/{id}"})
-    public String updateCategory(@PathVariable("id") Long id, Model model, Errors errors, Category category) {
+    public String updateCategory(@PathVariable("id") Long id, Model model, Errors errors,
+                                 @ModelAttribute @Valid Category category) {
         Category updatedCategory = categoryService.findById(id);
         if (updatedCategory != null) {
             if (!errors.hasErrors()) {
