@@ -63,9 +63,9 @@ public class BookController {
             model.addAttribute("book", book);
             model.addAttribute("title", "Update Author No: " + book.getId());
             model.addAttribute("categories", categoryService.findAll());
-            model.addAttribute("currentPublisher",book.getPublisher().getName());
+            model.addAttribute("currentPublisher", book.getPublisher().getName());
             System.out.println(book.getPublisher().getName());
-            model.addAttribute("currentCategory",book.getCategory().getName());
+            model.addAttribute("currentCategory", book.getCategory().getName());
             System.out.println(book.getCategory().getName());
             model.addAttribute("publishers", publisherService.findAll());
             return "book/update";
@@ -108,6 +108,26 @@ public class BookController {
         }
         model.addAttribute("books", bookService.findAll());
         return "book/index";
+    }
+
+    @GetMapping({"/details/{id}"})
+    public String bookDetails(@PathVariable("id") Long id, Model model) {
+        if (id == null) {
+            model.addAttribute("title", "book not found");
+            model.addAttribute("message", "Sorry somthing went wrong! Please try again");
+            return "notFound";
+        } else {
+            Book book = bookService.findById(id);
+            if (book == null) {
+                model.addAttribute("title", "book not found");
+                model.addAttribute("message", "The book does not found");
+                return "notFound";
+            }
+            model.addAttribute("title", "Book details");
+            model.addAttribute("book", book);
+            return "book/details";
+        }
+
     }
 
 }

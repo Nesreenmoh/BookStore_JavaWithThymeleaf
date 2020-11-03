@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/layout :: head"></head>
+<body>
+<nav th:replace="fragment/layout :: navigation"></nav>
+<div class="container mt-3">
+    <div class="jumbotron" style="max-width:900px">
+        <div class="container">
+            <h2 class="display-4 text-center" th:text="${book.title}"></h2>
+        </div>
+        <hr class="my-4">
+        <div class="row mt-2 h4">
+            <div class="col-md-4 ">
+                <div class="form-group">
+                    <label><strong>Publisher: </strong></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span th:text="${book.publisher.name}" class="lead"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>Publisher Year: </strong> </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span  class="lead" th:text="${book.publishedYear}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>ISBN: </strong> </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span  class="lead" th:text="${book.isbn}"></span>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>Category </strong></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <span class="lead" th:text="${book.category.name}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 h4">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><strong>Authors Names </strong></label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <ul  th:each="author : ${book.authors}" th:if="${author.books != null}">
+                        <li class="lead" th:text="${author.displayName}"></li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+        <hr class="my-4">
+        <div class="text-center">
+            <a class="btn btn-info btn-lg" href="#" th:href="@{/books/index}"> back</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
