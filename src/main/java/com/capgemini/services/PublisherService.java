@@ -51,6 +51,7 @@ public class PublisherService {
      */
 
     public void delete(Publisher publisher){
+
         publisherRepository.delete(publisher);
     }
 }

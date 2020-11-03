@@ -5,6 +5,10 @@
 <nav th:replace="fragment/layout :: navigation"></nav>
 <div class="container mt-3">
     <h3 th:text="${title}"></h3>
+
+    <div class="alert alert-info" th:if="${message}" >
+        <p th:text="${message}">Success message!</p>
+    </div>
     <div class="mt-4">
         <a class="btn btn-success" href="#" th:href="@{/publishers/create}"
         >Add Publisher</a

@@ -91,12 +91,12 @@ public class CategoryController {
                 categoryService.delete(category);
             }
             else {
-                model.addAttribute("categories", categoryService.findAll());
-                 return "category/index";
+                model.addAttribute("message", "Sorry this category is not found");
+                 return "notFound";
             }
         }
-        model.addAttribute("categories", categoryService.findAll());
-        return "category/index";
+        model.addAttribute("message", "Sorry something went wrong, Please try again");
+        return "notFound";
     }
 
     @GetMapping({"/details/{id}"})

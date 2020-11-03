@@ -1,6 +1,7 @@
 package com.capgemini.controllers;
 
 import com.capgemini.domains.Book;
+import com.capgemini.domains.Publisher;
 import com.capgemini.services.BookService;
 import com.capgemini.services.CategoryService;
 import com.capgemini.services.PublisherService;
@@ -46,6 +47,9 @@ public class BookController {
                              Errors errors, Model model) {
         if (!errors.hasErrors()) {
             bookService.save(book);
+            Publisher publisher = book.getPublisher();
+            publisher.getBooks().add(book);
+            publisherService.save(publisher);
             return "redirect:";
         } else {
             model.addAttribute("title", "add book");
@@ -87,6 +91,9 @@ public class BookController {
             updatedBook.setCategory(book.getCategory());
             updatedBook.setPublisher(book.getPublisher());
             bookService.save(updatedBook);
+            Publisher publisher = book.getPublisher();
+            publisher.getBooks().add(book);
+            publisherService.save(publisher);
             model.addAttribute("books", bookService.findAll());
             return "book/index";
         } else {
