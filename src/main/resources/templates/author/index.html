@@ -16,16 +16,18 @@
             <td>First Name</td>
             <td>Last Name</td>
             <td>Address</td>
+            <td>NoOfBooks</td>
             <td>Action</td>
             <td>Add Book</td>
         </tr>
         </thead>
           <tbody>
-          <tr th:each="author :${authors}">
+          <tr th:each="author :${authors}" th:with="convertedList=${#lists.toList(author.books)}">
               <td th:text="${author.id}"></td>
               <td th:text="${author.firstName}"></td>
               <td th:text="${author.lastName}"></td>
               <td th:text="${author.address.country}+', '+ ${author.address.city}+', '+ ${author.address.zipCode}"></td>
+              <td th:text="${#lists.size(convertedList)}"></td>
               <td class="text-center">
                   <a href="#" th:href="@{/authors/details/{id}(id=${author.id})}"><i class="fa fa-search-plus fa-lg"></i>   |  </a>
                   <a href="#" th:href="@{/authors/update/{id}(id=${author.id})}"><i class="fa fa-edit fa-lg" ></i>   |   </a>
