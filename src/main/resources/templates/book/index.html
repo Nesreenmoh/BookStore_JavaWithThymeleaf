@@ -15,6 +15,7 @@
           <tr>
             <td>ID</td>
             <td>Title</td>
+            <td>Publisher</td>
             <td>Published Year</td>
             <td>ISBN</td>
             <td>Category</td>
@@ -25,9 +26,11 @@
           <tr th:each="book :${books}">
             <td th:text="${book.id}"></td>
             <td th:text="${book.title}"></td>
+            <td th:text="${book.publisher.name}"></td>
             <td th:text="${book.publishedYear}"></td>
             <td th:text="${book.isbn}"></td>
             <td th:text="${book.category.name}"></td>
+
             <td class="text-center">
               <a href="#" th:href="@{/books/details/{id}(id=${book.id})}"
               ><i class="fa fa-search-plus fa-lg"></i> |
