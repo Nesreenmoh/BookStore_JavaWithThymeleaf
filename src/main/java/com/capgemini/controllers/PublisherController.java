@@ -1,6 +1,7 @@
 package com.capgemini.controllers;
 
 
+import com.capgemini.domains.Book;
 import com.capgemini.domains.Publisher;
 import com.capgemini.services.BookService;
 import com.capgemini.services.PublisherService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/publishers")
@@ -93,6 +95,38 @@ public class PublisherController {
         }
     }
 
+    /*
+    show details of a specific publisher
+     */
+
+    @GetMapping({"/details/{id}"})
+    public String publisherDetails(@PathVariable("id") Long id, Model model){
+       if(id==null){
+           model.addAttribute("message", "Sorry something went wrong, Please try again");
+           return "notFound";
+       }
+       else {
+           Publisher publisher = publisherService.findPublisherById(id);
+           if(publisher==null){
+               model.addAttribute("message", "Sorry This publisher is not found");
+               return "notFound";
+           }
+           else {
+               List<Book> books = publisher.getBooks();
+               model.addAttribute("publisher", publisher);
+               model.addAttribute("books" ,books);
+               model.addAttribute("title", "Publisher Details");
+               return "publisher/details";
+           }
+       }
+    }
+
+
+
+
+    /*
+     delete a publisher
+     */
     @GetMapping({"/delete/{id}"})
     public String deletePublisher(@PathVariable("id") Long id, Model model,
                                   RedirectAttributes redirectAttributes) {
