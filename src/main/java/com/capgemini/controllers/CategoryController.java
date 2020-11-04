@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -84,19 +85,39 @@ public class CategoryController {
     }
 
     @GetMapping({"/delete/{id}"})
-    public String deleteCategory(@PathVariable("id") Long id, Model model){
-        if(id!=null){
-            Category category = categoryService.findById(id);
-            if(category!=null){
-                categoryService.delete(category);
-            }
-            else {
-                model.addAttribute("message", "Sorry this category is not found");
-                 return "notFound";
-            }
-        }
-        model.addAttribute("message", "Sorry something went wrong, Please try again");
-        return "notFound";
+    public String deleteCategory(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes){
+       try{
+           if (id == null) {
+               model.addAttribute("message", "Sorry something went wrong, Please try again");
+               return "notFound";
+           } else {
+               Category category = categoryService.findById(id);
+               if (category == null) {
+                   model.addAttribute("message", "Sorry this category is not found");
+                   return "notFound";
+               }
+               else{
+                   for(int i=0;i<bookService.findAll().size();i++){
+                       if (bookService.findAll().get(i).getCategory().getId()==category.getId()) {
+                           model.addAttribute("categories", categoryService.findAll());
+                           redirectAttributes.addFlashAttribute("message", "This Category has books, cannot be deleted!");
+                           return "redirect:/categories/index";
+                       }
+                   }
+                   categoryService.delete(category);
+                   model.addAttribute("categories", categoryService.findAll());
+                   model.addAttribute("title", "Categories List");
+                   redirectAttributes.addFlashAttribute("message", "This Category has been successfully deleted!");
+                   return "redirect:/categories/index";
+               }
+
+           }
+       }catch(Exception ex){
+           System.out.println("Error: " + ex.getMessage());
+           model.addAttribute("categories", categoryService.findAll());
+           model.addAttribute("title", "Categories List");
+           return "category/index";
+       }
     }
 
     @GetMapping({"/details/{id}"})
