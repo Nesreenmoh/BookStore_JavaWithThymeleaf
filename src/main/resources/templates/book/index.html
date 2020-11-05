@@ -37,7 +37,7 @@
             <td th:text="${book.publishedYear}"></td>
             <td th:text="${book.isbn}"></td>
             <td th:text="${book.category.name}"></td>
-            <td
+            <td th:if="${book.authors}"
               th:each="author : ${book.authors}"
               th:text="${author.displayName}+', '"
             ></td>

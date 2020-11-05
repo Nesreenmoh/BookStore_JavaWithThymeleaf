@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -81,20 +82,36 @@ public class AuthorController {
     }
 
     @GetMapping({"/delete/{id}"})
-    public String deleteAuthor(@PathVariable("id") Long id, Model model) {
-        if (id != null) {
-            Author author = authorService.findById(id);
-            if (author != null) {
-                authorService.delete(author);
+    public String deleteAuthor(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try{
+            if (id == null) {
+                model.addAttribute("message", "Sorry something went wrong, Please try again");
+                return "notFound";
             } else {
-                model.addAttribute("authors", authorService.findAll());
-                return "author/index";
+                Author author = authorService.findById(id);
+                if (author == null) {
+                    model.addAttribute("message", "Sorry This author is not found");
+                    return "notFound";
+                }
+                else{
+                    authorService.delete(author);
+                    model.addAttribute("authors", authorService.findAll());
+                    model.addAttribute("title", "Authors List");
+                    redirectAttributes.addFlashAttribute("message", "This Author has been successfully deleted!");
+                    return "redirect:/authors/index";
+                }
             }
+        }catch(Exception ex){
+            System.out.println("Error: " + ex.getMessage());
+            model.addAttribute("authors", authorService.findAll());
+            model.addAttribute("title", "Authors List");
+            return "author/index";
         }
-        model.addAttribute("authors", authorService.findAll());
-        return "author/index";
     }
 
+    /*
+    Add book to the author
+     */
     @GetMapping({"/addbook/{id}"})
     public String addBooksToAuthorForm(@PathVariable("id") Long id, Model model) {
 
@@ -118,7 +135,6 @@ public class AuthorController {
             model.addAttribute("authorBookDTO", dto);
             return "author/addbook";
         }
-
     }
 
     @PostMapping("/addbook/{id}")

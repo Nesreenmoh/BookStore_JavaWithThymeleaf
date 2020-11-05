@@ -65,7 +65,9 @@ public class Author extends BaseEntity {
 
     // add book
     public void addBook(Book book){
+
         this.books.add(book);
+        book.getAuthors().add(this);
     }
     //get book
     public List<Book> getBooks() {
