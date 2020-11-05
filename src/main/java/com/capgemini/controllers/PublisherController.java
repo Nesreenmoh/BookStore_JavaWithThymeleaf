@@ -154,7 +154,6 @@ public class PublisherController {
                     redirectAttributes.addFlashAttribute("message", "This Publisher has been successfully deleted!");
                     return "redirect:/publishers/index";
                 }
-
             }
         } catch (Exception ex) {
             System.out.println("Error: " + ex.getMessage());

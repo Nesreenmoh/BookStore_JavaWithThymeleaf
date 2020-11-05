@@ -2,6 +2,7 @@ package com.capgemini.controllers;
 
 import com.capgemini.domains.Book;
 import com.capgemini.domains.Publisher;
+import com.capgemini.services.AuthorService;
 import com.capgemini.services.BookService;
 import com.capgemini.services.CategoryService;
 import com.capgemini.services.PublisherService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -25,6 +27,9 @@ public class BookController {
 
     @Autowired
     private PublisherService publisherService;
+
+    @Autowired
+    private AuthorService authorService;
 
     @RequestMapping({"", "/", "index", "index.html"})
     public String index(Model model) {
@@ -103,20 +108,44 @@ public class BookController {
     }
 
     @GetMapping({"/delete/{id}"})
-    public String deleteBook(@PathVariable("id") Long id, Model model) {
-        if (id != null) {
-            Book book = bookService.findById(id);
-            if (book != null) {
-                bookService.delete(book);
-            } else {
-                model.addAttribute("books", bookService.findAll());
-                return "book/index";
-            }
-        }
-        model.addAttribute("books", bookService.findAll());
-        return "book/index";
+    public String deleteBook(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+       try{
+           if (id == null) {
+               model.addAttribute("message", "Sorry something went wrong, Please try again");
+               return "notFound";
+           } else {
+               Book book = bookService.findById(id);
+               if (book == null) {
+                   model.addAttribute("message", "Sorry This book is not found");
+                   return "notFound";
+               }
+               else{
+                   for(int i=0;i<authorService.findAll().size();i++){
+                       if (authorService.findAll().get(i).getBooks().get(i).getId()==book.getId()) {
+                           model.addAttribute("books", bookService.findAll());
+                           redirectAttributes.addFlashAttribute("message", "This book has Authors, cannot be deleted!");
+                           return "redirect:/books/index";
+                       }
+                   }
+                   bookService.delete(book);
+                   model.addAttribute("books", bookService.findAll());
+                   model.addAttribute("title", "Books List");
+                   redirectAttributes.addFlashAttribute("message", "This Book has been successfully deleted!");
+                   return "redirect:/books/index";
+               }
+           }
+       } catch (Exception ex){
+           System.out.println("Error: " + ex.getMessage());
+           model.addAttribute("books", bookService.findAll());
+           model.addAttribute("title", "Books List");
+           return "book/index";
+       }
     }
 
+
+    /*
+    show details of a book
+     */
     @GetMapping({"/details/{id}"})
     public String bookDetails(@PathVariable("id") Long id, Model model) {
         if (id == null) {
